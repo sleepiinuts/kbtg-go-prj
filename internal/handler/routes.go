@@ -5,6 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/sleepiinuts/kbtg-go-prj/internal/ping"
+	"github.com/sleepiinuts/kbtg-go-prj/internal/student"
 )
 
 type route struct {
@@ -27,6 +28,11 @@ func InitRoutes(e *echo.Echo) {
 			Path:     "/hello",
 			Method:   http.MethodPost,
 			Endpoint: ping.EchoHello,
+		},
+		{
+			Path:     "/grade",
+			Method:   http.MethodGet,
+			Endpoint: student.CalculateGrade,
 		},
 	}
 
