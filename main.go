@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/sleepiinuts/kbtg-go-prj/internal/handler"
 	"github.com/sleepiinuts/kbtg-go-prj/internal/ping"
 )
 
@@ -21,8 +22,9 @@ func pureHTTP() {
 
 func echoHTTP() {
 	e := echo.New()
-	e.GET("/ping", ping.EchoPing)
-	e.POST("/hello", ping.EchoHello)
+
+	// init routes
+	handler.InitRoutes(e)
 
 	e.Start(":8080")
 }
