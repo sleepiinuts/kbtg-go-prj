@@ -24,7 +24,7 @@ func main() {
 	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println("panic: %v", err)
+				fmt.Printf("panic: %v", err)
 			}
 		}()
 
