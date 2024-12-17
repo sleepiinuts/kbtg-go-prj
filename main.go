@@ -52,6 +52,7 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Header.Add need to be put before content writing?
 	w.Header().Add("Content-type", "application/json")
 	if err := json.NewEncoder(w).Encode(req); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
