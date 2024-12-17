@@ -18,7 +18,7 @@ func main() {
 	}
 
 	log.Printf("config: %+v\n", c)
-	echoHTTP()
+	echoHTTP(&c)
 }
 
 func pureHTTP() {
@@ -29,11 +29,11 @@ func pureHTTP() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func echoHTTP() {
+func echoHTTP(c *app.Config) {
 	e := echo.New()
 
 	// init routes
-	handler.InitRoutes(e)
+	handler.InitRoutes(e, c)
 	e.Use(handler.TimeConsume)
 
 	e.Start(":8080")

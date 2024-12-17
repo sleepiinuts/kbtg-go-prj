@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/sleepiinuts/kbtg-go-prj/internal/app"
 	"github.com/sleepiinuts/kbtg-go-prj/internal/ping"
 	"github.com/sleepiinuts/kbtg-go-prj/internal/student"
 )
@@ -16,7 +17,9 @@ type route struct {
 	Middleware []echo.MiddlewareFunc
 }
 
-func InitRoutes(e *echo.Echo) {
+func InitRoutes(e *echo.Echo, config *app.Config) {
+	studentEp := student.NewStudentEndpoint(config)
+
 	routes := []route{
 		{
 			Path:       "/ping",
@@ -32,7 +35,7 @@ func InitRoutes(e *echo.Echo) {
 		{
 			Path:     "/grade",
 			Method:   http.MethodGet,
-			Endpoint: student.CalculateGrade,
+			Endpoint: studentEp.CalculateGrade,
 		},
 	}
 
