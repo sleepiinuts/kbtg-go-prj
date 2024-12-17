@@ -25,6 +25,7 @@ func echoHTTP() {
 
 	// init routes
 	handler.InitRoutes(e)
+	e.Use(handler.TimeConsume)
 
 	e.Start(":8080")
 }
