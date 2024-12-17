@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/sleepiinuts/kbtg-go-prj/internal/model"
 )
 
 func PingHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,14 +29,7 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// expect json body
-	var req struct {
-		Name    string `json:"name"`
-		Surname string `json:"surname"`
-		Address struct {
-			No   int    `json:"no"`
-			Road string `json:"road"`
-		} `json:"address"`
-	}
+	var req model.Request
 
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

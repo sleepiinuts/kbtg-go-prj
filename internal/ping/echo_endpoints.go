@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/sleepiinuts/kbtg-go-prj/internal/model"
 )
 
 func EchoPing(ctx echo.Context) error {
@@ -11,14 +12,7 @@ func EchoPing(ctx echo.Context) error {
 }
 
 func EchoHello(ctx echo.Context) error {
-	var req struct {
-		Name    string `json:"name"`
-		Surname string `json:"surname"`
-		Address struct {
-			No   int    `json:"no"`
-			Road string `json:"road"`
-		} `json:"address"`
-	}
+	var req model.Request
 
 	if err := ctx.Bind(&req); err != nil {
 		return ctx.String(http.StatusBadRequest, "Bad Request")
