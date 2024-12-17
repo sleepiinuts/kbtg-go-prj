@@ -4,20 +4,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/sleepiinuts/kbtg-go-prj/internal/ping"
 )
 
 func main() {
 	fmt.Println("hello world")
 
 	// GET: ping
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			return
-		}
-		w.Header().Add("Content-type", "application/json")
-		w.Write([]byte("pong"))
-	})
+	http.HandleFunc("/ping", ping.PingHandler)
 
 	//
 
