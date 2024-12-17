@@ -22,6 +22,7 @@ func main() {
 	//
 
 	http.HandleFunc("/hello", HelloHandler)
+	http.HandleFunc("/hello2", HelloHandler)
 	http.ListenAndServe(":8080", nil)
 
 }
