@@ -13,6 +13,7 @@ type Config struct {
 	Username string `mapstructure:"username"`
 	Password string `mapstructure:"password"`
 	Score    int    `mapstructure:"score"`
+	Database string `mapstructure:"database"`
 }
 
 func (c *Config) Init(env string) error {

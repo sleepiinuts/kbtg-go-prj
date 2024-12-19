@@ -21,17 +21,27 @@ type route struct {
 func InitRoutes(e *echo.Echo, config *app.Config) {
 	studentEp := student.NewStudentEndpoint(config)
 
-	// school
-	rp := school.RedisRepos{}
-	schoolServ := school.NewService(&rp)
-	schoolEp := school.Endpoint{
-		Serv: schoolServ,
+	var serv *school.Service
+	switch config.Database {
+	case "mongo":
+		serv = school.NewService(&school.RedisRepos{})
+	case "redis":
+		serv = school.NewService(&school.MongoRepos{})
+	default:
+		serv = school.NewService(&school.MongoRepos{})
 	}
 
-	mongoRp := school.MongoRepos{}
-	schoolMongoServ := school.NewService(&mongoRp)
+	// school
+	// rp := school.RedisRepos{}
+	// schoolServ := school.NewService(&rp)
+	schoolEp := school.Endpoint{
+		Serv: serv,
+	}
+
+	// mongoRp := school.MongoRepos{}
+	// schoolMongoServ := school.NewService(&mongoRp)
 	schoolMongoEp := school.Endpoint{
-		Serv: schoolMongoServ,
+		Serv: serv,
 	}
 
 	routes := []route{

@@ -1,3 +1,4 @@
 username: "devUser"
 password: "devPassword"
 score: "75"
+database: "redis"
