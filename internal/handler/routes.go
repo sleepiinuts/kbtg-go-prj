@@ -61,8 +61,19 @@ func InitRoutes(e *echo.Echo, config *app.Config) {
 			Method:   http.MethodPost,
 			Endpoint: schoolMongoEp.AddStudent,
 		},
+		{
+			Group:    "mongo",
+			Path:     "/school-listStudent",
+			Method:   http.MethodGet,
+			Endpoint: schoolMongoEp.ListStudent,
+		},
+		{
+			Group:    "mongo",
+			Path:     "/school-countStudent",
+			Method:   http.MethodGet,
+			Endpoint: schoolMongoEp.CountStudentInRoom,
+		},
 	}
-
 	for _, r := range routes {
 		e.Group(r.Group).Add(r.Method, r.Path, r.Endpoint, r.Middleware...)
 	}

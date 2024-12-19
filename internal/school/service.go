@@ -17,6 +17,7 @@ func NewService(repos Repos) *Service {
 type Repos interface {
 	GetStudentByName(name string) (*model.Student, error)
 	AddStudentToRoom(name string, room, score int) error
+	GetStudentByRoom(room int) ([]model.Student, error)
 }
 
 func (s *Service) AddStudentToDB(room int, stu model.Student) error {
@@ -48,3 +49,10 @@ func (s *Service) AddStudentToDB(room int, stu model.Student) error {
 	}
 	return nil
 }
+
+// GetStudentByRoom implements Schooler.
+func (s *Service) GetStudentByRoom(room int) ([]model.Student, error) {
+	return s.repos.GetStudentByRoom(room)
+}
+
+var _ Schooler = &Service{}

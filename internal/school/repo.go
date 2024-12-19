@@ -49,4 +49,15 @@ func (rd *RedisRepos) GetStudentByName(name string) (*model.Student, error) {
 	return &model.Student{}, nil
 }
 
+// GetStudentByRoom implements Repos.
+func (rd *RedisRepos) GetStudentByRoom(room int) ([]model.Student, error) {
+	for _, r := range rd.Rooms {
+		if r.No == room {
+			return r.Students, nil
+		}
+	}
+
+	return nil, fmt.Errorf("room not found")
+}
+
 var _ Repos = &RedisRepos{}
