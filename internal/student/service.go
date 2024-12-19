@@ -1,5 +1,28 @@
 package student
 
+import "github.com/sleepiinuts/kbtg-go-prj/internal/school"
+
+type Service struct {
+	schoolRepos school.Repos
+}
+
+func NewService(repos school.Repos) *Service {
+	return &Service{schoolRepos: repos}
+}
+
+func (s *Service) CalculateGrade(score int) string {
+	return "F"
+}
+
+func (s *Service) CalculateGradeByStudentName(name string) string {
+	stu, err := s.schoolRepos.GetStudentByName(name)
+	if err != nil {
+		return ""
+	}
+
+	return studentCalculateGrade(stu.Score)
+}
+
 func studentCalculateGrade(score int) string {
 
 	grade := ""
@@ -12,7 +35,7 @@ func studentCalculateGrade(score int) string {
 		grade = "C"
 	case score < 80:
 		grade = "B"
-	default:
+	case score <= 100:
 		grade = "A"
 	}
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 
@@ -18,7 +19,17 @@ func main() {
 	}
 
 	log.Printf("config: %+v\n", c)
-	echoHTTP(&c)
+
+	option := flag.String("run", "api", "run (api | batch)")
+	flag.Parse()
+
+	switch *option {
+	case "api":
+		echoHTTP(&c)
+	default:
+		pureHTTP()
+	}
+
 }
 
 func pureHTTP() {

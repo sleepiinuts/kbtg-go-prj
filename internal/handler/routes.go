@@ -19,17 +19,24 @@ type route struct {
 }
 
 func InitRoutes(e *echo.Echo, config *app.Config) {
-	studentEp := student.NewStudentEndpoint(config)
 
 	var serv *school.Service
+	var schoolRepos school.Repos
+
 	switch config.Database {
 	case "mongo":
-		serv = school.NewService(&school.RedisRepos{})
+		schoolRepos = &school.MongoRepos{}
+		serv = school.NewService(schoolRepos)
 	case "redis":
-		serv = school.NewService(&school.MongoRepos{})
+		schoolRepos = &school.RedisRepos{}
+		serv = school.NewService(schoolRepos)
 	default:
-		serv = school.NewService(&school.MongoRepos{})
+		schoolRepos = &school.MongoRepos{}
+		serv = school.NewService(schoolRepos)
 	}
+
+	stuServ := student.NewService(schoolRepos)
+	studentEp := student.NewStudentEndpoint(config, stuServ)
 
 	// school
 	// rp := school.RedisRepos{}
@@ -60,6 +67,11 @@ func InitRoutes(e *echo.Echo, config *app.Config) {
 			Path:     "/grade",
 			Method:   http.MethodGet,
 			Endpoint: studentEp.CalculateGrade,
+		},
+		{
+			Path:     "/gradeByName",
+			Method:   http.MethodGet,
+			Endpoint: studentEp.CalculateGradeByStudentName,
 		},
 		{
 			Path:     "/school",

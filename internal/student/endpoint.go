@@ -11,11 +11,16 @@ import (
 )
 
 type StudentEndpoint struct {
-	config *app.Config
+	config  *app.Config
+	service Studenter
 }
 
-func NewStudentEndpoint(config *app.Config) *StudentEndpoint {
-	return &StudentEndpoint{config: config}
+type Studenter interface {
+	CalculateGradeByStudentName(name string) string
+}
+
+func NewStudentEndpoint(config *app.Config, service Studenter) *StudentEndpoint {
+	return &StudentEndpoint{config: config, service: service}
 }
 
 func (s *StudentEndpoint) CalculateGrade(c echo.Context) error {
@@ -38,4 +43,13 @@ func (s *StudentEndpoint) CalculateGrade(c echo.Context) error {
 	// response score
 	return c.JSON(http.StatusOK, grade)
 
+}
+
+func (e *StudentEndpoint) CalculateGradeByStudentName(c echo.Context) error {
+	name := c.QueryParam("name")
+	if name == "" {
+		return c.JSON(http.StatusBadRequest, nil)
+	}
+
+	return c.JSON(http.StatusOK, e.service.CalculateGradeByStudentName(name))
 }
