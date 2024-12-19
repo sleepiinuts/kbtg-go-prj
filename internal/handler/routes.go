@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/sleepiinuts/kbtg-go-prj/internal/app"
 	"github.com/sleepiinuts/kbtg-go-prj/internal/ping"
+	"github.com/sleepiinuts/kbtg-go-prj/internal/school"
 	"github.com/sleepiinuts/kbtg-go-prj/internal/student"
 )
 
@@ -36,6 +37,11 @@ func InitRoutes(e *echo.Echo, config *app.Config) {
 			Path:     "/grade",
 			Method:   http.MethodGet,
 			Endpoint: studentEp.CalculateGrade,
+		},
+		{
+			Path:     "/school",
+			Method:   http.MethodPost,
+			Endpoint: school.AddStudent,
 		},
 	}
 

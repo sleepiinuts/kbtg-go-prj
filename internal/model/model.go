@@ -8,3 +8,17 @@ type Request struct {
 		Road string `json:"road"`
 	} `json:"address"`
 }
+
+type School struct {
+	Rooms []Room
+}
+
+type Room struct {
+	No       int
+	Students []Student
+}
+
+type Student struct {
+	Name  string `json:"name"`
+	Score int    `json:"score"`
+}
