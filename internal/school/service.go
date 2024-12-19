@@ -4,7 +4,10 @@ import (
 	"github.com/sleepiinuts/kbtg-go-prj/internal/model"
 )
 
-func addStudent(room int, stu model.Student) error {
+type Service struct {
+}
+
+func (s *Service) AddStudentToDB(room int, stu model.Student) error {
 
 	// append student to room
 	r := model.Room{No: room}

@@ -21,6 +21,11 @@ type route struct {
 func InitRoutes(e *echo.Echo, config *app.Config) {
 	studentEp := student.NewStudentEndpoint(config)
 
+	// school
+	schoolEp := school.Endpoint{
+		Serv: &school.Service{},
+	}
+
 	routes := []route{
 		{
 			Path:       "/ping",
@@ -41,7 +46,7 @@ func InitRoutes(e *echo.Echo, config *app.Config) {
 		{
 			Path:     "/school",
 			Method:   http.MethodPost,
-			Endpoint: school.AddStudent,
+			Endpoint: schoolEp.AddStudent,
 		},
 	}
 

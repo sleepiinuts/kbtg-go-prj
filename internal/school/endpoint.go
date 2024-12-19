@@ -7,7 +7,13 @@ import (
 	"github.com/sleepiinuts/kbtg-go-prj/internal/model"
 )
 
-type Endpoint struct{}
+type Endpoint struct {
+	Serv Schooler
+}
+
+type Schooler interface {
+	AddStudentToDB(room int, stu model.Student) error
+}
 
 type req struct {
 	Room  int    `json:"room"`
@@ -15,7 +21,7 @@ type req struct {
 	Score int    `json:"score"`
 }
 
-func AddStudent(c echo.Context) error {
+func (e *Endpoint) AddStudent(c echo.Context) error {
 	var req req
 	if err := c.Bind(&req); err != nil {
 		return echo.ErrBadRequest
@@ -28,7 +34,7 @@ func AddStudent(c echo.Context) error {
 		Score: req.Score,
 	}
 
-	if err := addStudent(req.Room, s); err != nil {
+	if err := e.Serv.AddStudentToDB(req.Room, s); err != nil {
 		return echo.ErrBadRequest
 	}
 
