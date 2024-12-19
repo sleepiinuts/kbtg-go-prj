@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -11,7 +12,14 @@ import (
 func TimeConsume(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		start := time.Now()
-		next(c)
+
+		err := next(c)
+
+		// handle interserver error
+		if err != nil {
+			fmt.Printf("error: %v\n", err)
+			return echo.NewHTTPError(http.StatusInternalServerError, err)
+		}
 		stop := time.Now()
 
 		log.Println("time consume by middleware: ", stop.Sub(start))
