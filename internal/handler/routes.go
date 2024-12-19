@@ -28,6 +28,12 @@ func InitRoutes(e *echo.Echo, config *app.Config) {
 		Serv: schoolServ,
 	}
 
+	mongoRp := school.MongoRepos{}
+	schoolMongoServ := school.NewService(&mongoRp)
+	schoolMongoEp := school.Endpoint{
+		Serv: schoolMongoServ,
+	}
+
 	routes := []route{
 		{
 			Path:       "/ping",
@@ -49,6 +55,11 @@ func InitRoutes(e *echo.Echo, config *app.Config) {
 			Path:     "/school",
 			Method:   http.MethodPost,
 			Endpoint: schoolEp.AddStudent,
+		},
+		{
+			Path:     "/schoolMongo",
+			Method:   http.MethodPost,
+			Endpoint: schoolMongoEp.AddStudent,
 		},
 	}
 

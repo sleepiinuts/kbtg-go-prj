@@ -24,7 +24,8 @@ type req struct {
 func (e *Endpoint) AddStudent(c echo.Context) error {
 	var req req
 	if err := c.Bind(&req); err != nil {
-		return echo.ErrBadRequest
+		// return echo.ErrBadRequest
+		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
 	// business logic
@@ -35,7 +36,7 @@ func (e *Endpoint) AddStudent(c echo.Context) error {
 	}
 
 	if err := e.Serv.AddStudentToDB(req.Room, s); err != nil {
-		return echo.ErrBadRequest
+		return echo.NewHTTPError(http.StatusBadRequest, err)
 	}
 
 	return c.JSON(http.StatusCreated, nil)
