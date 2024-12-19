@@ -22,8 +22,10 @@ func InitRoutes(e *echo.Echo, config *app.Config) {
 	studentEp := student.NewStudentEndpoint(config)
 
 	// school
+	rp := school.RedisRepos{}
+	schoolServ := school.NewService(&rp)
 	schoolEp := school.Endpoint{
-		Serv: &school.Service{},
+		Serv: schoolServ,
 	}
 
 	routes := []route{
